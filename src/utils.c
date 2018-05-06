@@ -1,0 +1,88 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aherrera <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/05/02 21:39:24 by aherrera          #+#    #+#             */
+/*   Updated: 2018/05/05 19:05:46 by aherrera         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libfdf.h"
+
+t_mlx	*create_mlx(t_coor *map)
+{
+	t_mlx	*mlx;
+
+	mlx = (t_mlx *)malloc(sizeof(t_mlx));
+	mlx->mlx = mlx_init();
+	mlx->win = mlx_new_window(mlx->mlx, 1200, 1200, "FdF");
+	mlx->map = map;
+	mlx->scale = 25;
+	mlx->w = 0;
+	mlx->mode = 0;
+	mlx->mode_c = 0;
+	return (mlx);
+}
+
+int		get_w(char *map)
+{
+	int w;
+
+	w = 0;
+	while (*map && *map != '\n')
+	{
+		if (*map == ' ')
+		{
+			while (*(map + 1) == ' ')
+				map++;
+			w++;
+		}
+		map++;
+	}
+	ft_putendl(ft_itoa(w));
+	return (w);
+}
+
+int		get_h(char *map)
+{
+	int h;
+
+	h = 0;
+	while (*map)
+	{
+		if (*map == '\n')
+			h++;
+		map++;
+	}
+	return (h + 1);
+}
+
+int		get_c(char *line)
+{
+	int	color;
+
+	color = ft_atoi(line);
+	color = color * 20 + color * 10 * 256 + color * 25 * 256 * 256;
+	color = 0xFFFFFF - color;
+	while (color <= 0)
+		color += 0xFFFFFF;
+	return (color);
+}
+
+t_coor	*find_below(t_coor *map, int w)
+{
+	int i;
+
+	i = 0;
+	while (i < w)
+	{
+		if (!map)
+			return (NULL);
+		map = map->next;
+		i++;
+	}
+	return (map);
+}

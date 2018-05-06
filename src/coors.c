@@ -1,0 +1,50 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   coors.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aherrera <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/05/02 21:38:32 by aherrera          #+#    #+#             */
+/*   Updated: 2018/05/04 20:25:23 by aherrera         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libfdf.h"
+
+static t_coor	*new_coor(float x, float y, float z, int color)
+{
+	t_coor	*new;
+
+	new = (t_coor *)malloc(sizeof(t_coor));
+	new->color = color;
+	new->matrix[0] = x;
+	new->matrix[1] = y;
+	new->matrix[2] = z;
+	new->matrix[3] = 1;
+	new->next = NULL;
+	return (new);
+}
+
+void			add_coor(t_coor **map, float *matrix, int color)
+{
+	t_coor	*tmp;
+
+	if (!*map)
+	{
+		*map = new_coor(matrix[0], matrix[1], matrix[2], color);
+		return ;
+	}
+	tmp = *map;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new_coor(matrix[0], matrix[1], matrix[2], color);
+}
+
+void			dst_map(t_coor **map)
+{
+	if ((*map)->next)
+		dst_map(&((*map)->next));
+	free(*map);
+	map = NULL;
+}
