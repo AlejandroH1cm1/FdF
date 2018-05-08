@@ -6,7 +6,7 @@
 /*   By: aherrera <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/02 21:38:57 by aherrera          #+#    #+#             */
-/*   Updated: 2018/05/07 19:38:50 by aherrera         ###   ########.fr       */
+/*   Updated: 2018/05/07 20:19:20 by aherrera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,14 +85,12 @@ float	d(t_mlx *mlx, t_coor *p1, t_coor *p2)
 {
 	float	x;
 	float	y;
-	float	z;
 	float	d;
 
 	x = round(p1->matrix[0] * mlx->scale + 200) -
 		round(p2->matrix[0] * mlx->scale + 200);
 	y = round(p1->matrix[1] * mlx->scale + 200) -
 		round(p2->matrix[1] * mlx->scale + 200);
-	z = p1->h - p2->h;
 	d = hypot(x, y);
 	return (d);
 }
