@@ -6,7 +6,7 @@
 /*   By: aherrera <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/22 15:25:00 by aherrera          #+#    #+#             */
-/*   Updated: 2018/05/05 18:08:23 by aherrera         ###   ########.fr       */
+/*   Updated: 2018/05/07 15:32:58 by aherrera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static char	*word(char *str, char c)
 		i++;
 	w = (char *)malloc((i + 1) * sizeof(char));
 	i = 0;
-	while (*str != c && *str != '\0')
+	while (*str != c && *str != '\0' && *str != '\n')
 	{
 		w[i] = *str;
 		str++;
@@ -43,11 +43,11 @@ static int	c_w(char *str, char c)
 	w = 0;
 	while (str[i] != '\0')
 	{
-		while (str[i] == c)
+		while (str[i] == c || str[i] == '\n')
 			i++;
-		if (str[i] != c && str[i] != '\0')
+		if (str[i] != c && str[i] != '\0' && str[i] != '\n')
 		{
-			while (str[i] != c && str[i] != '\0')
+			while (str[i] != c && str[i] != '\0' && str[i] != '\n')
 				i++;
 			w++;
 		}
@@ -75,7 +75,7 @@ char		**ft_strsplit(char *str, char c)
 				str++;
 			r[i] = word(str, c);
 			i++;
-			while (*str != c && *str != '\0')
+			while (*str != c && *str != '\0' && *str != '\n')
 				str++;
 		}
 	}

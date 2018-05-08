@@ -6,7 +6,7 @@
 /*   By: aherrera <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/02 21:38:57 by aherrera          #+#    #+#             */
-/*   Updated: 2018/05/05 21:03:17 by aherrera         ###   ########.fr       */
+/*   Updated: 2018/05/07 19:38:50 by aherrera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ float	**rot_mx_x(double theta)
 
 	matrix = (float **)malloc(3 * sizeof(float *));
 	i = 0;
-	while (i < 4)
+	while (i < 3)
 	{
 		matrix[i] = (float *)malloc(3 * sizeof(float *));
 		matrix[i][0] = 0;
@@ -85,10 +85,14 @@ float	d(t_mlx *mlx, t_coor *p1, t_coor *p2)
 {
 	float	x;
 	float	y;
+	float	z;
 	float	d;
 
-	x = p1->matrix[0] * mlx->scale - p2->matrix[0] * mlx->scale;
-	y = p1->matrix[1] * mlx->scale - p2->matrix[1] * mlx->scale;
+	x = round(p1->matrix[0] * mlx->scale + 200) -
+		round(p2->matrix[0] * mlx->scale + 200);
+	y = round(p1->matrix[1] * mlx->scale + 200) -
+		round(p2->matrix[1] * mlx->scale + 200);
+	z = p1->h - p2->h;
 	d = hypot(x, y);
-	return (d * 2);
+	return (d);
 }

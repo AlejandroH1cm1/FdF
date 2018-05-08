@@ -6,7 +6,7 @@
 /*   By: aherrera <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/02 21:39:24 by aherrera          #+#    #+#             */
-/*   Updated: 2018/05/05 19:05:46 by aherrera         ###   ########.fr       */
+/*   Updated: 2018/05/07 20:08:34 by aherrera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_mlx	*create_mlx(t_coor *map)
 	mlx->w = 0;
 	mlx->mode = 0;
 	mlx->mode_c = 0;
+	mlx->theta = PI / 6;
 	return (mlx);
 }
 
@@ -42,30 +43,28 @@ int		get_w(char *map)
 		}
 		map++;
 	}
-	ft_putendl(ft_itoa(w));
-	return (w);
+	return (w + 1);
 }
 
 int		get_h(char *map)
 {
 	int h;
 
-	h = 0;
+	h = 1;
 	while (*map)
 	{
 		if (*map == '\n')
 			h++;
 		map++;
 	}
-	return (h + 1);
+	return (h);
 }
 
-int		get_c(char *line)
+int		get_c(int color)
 {
-	int	color;
-
-	color = ft_atoi(line);
-	color = color * 20 + color * 10 * 256 + color * 25 * 256 * 256;
+	if (color == 0)
+		return (0xFFFFFF);
+	color = color * 10 + color * 20 * 256 + color * 20 * 256 * 256;
 	color = 0xFFFFFF - color;
 	while (color <= 0)
 		color += 0xFFFFFF;

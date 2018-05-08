@@ -6,7 +6,7 @@
 /*   By: aherrera <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/02 21:43:20 by aherrera          #+#    #+#             */
-/*   Updated: 2018/05/05 17:23:43 by aherrera         ###   ########.fr       */
+/*   Updated: 2018/05/07 19:47:30 by aherrera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,23 +46,23 @@ static void		mult_m(t_coor *map, float **mx)
 	}
 }
 
-static void		rotate(t_coor *map, int d)
+static void		rotate(t_mlx *mlx, t_coor *map, int d)
 {
 	float	**matrix;
 
 	matrix = NULL;
 	if (d == 5)
-		matrix = rot_mx_x(-PI / 6);
+		matrix = rot_mx_x(-mlx->theta);
 	else if (d == 2)
-		matrix = rot_mx_x(PI / 6);
+		matrix = rot_mx_x(mlx->theta);
 	else if (d == 1)
-		matrix = rot_mx_y(PI / 6);
+		matrix = rot_mx_y(mlx->theta);
 	else if (d == 3)
-		matrix = rot_mx_y(-PI / 6);
+		matrix = rot_mx_y(-mlx->theta);
 	else if (d == 6)
-		matrix = rot_mx_z(PI / 6);
+		matrix = rot_mx_z(mlx->theta);
 	else if (d == 4)
-		matrix = rot_mx_z(-PI / 6);
+		matrix = rot_mx_z(-mlx->theta);
 	mult_m(map, matrix);
 	free(matrix[0]);
 	free(matrix[1]);
@@ -81,19 +81,19 @@ static int		deal_key(int key, void *param)
 	if (key >= 123 && key <= 126)
 		move(mlx->map, key - 122, 1);
 	if (key >= 0 && key <= 2)
-		rotate(mlx->map, key + 1);
+		rotate(mlx, mlx->map, key + 1);
 	if (key >= 12 && key <= 14)
-		rotate(mlx->map, key - 8);
+		rotate(mlx, mlx->map, key - 8);
 	if (key == 53)
-		mlx_destroy_window(mlx->mlx, mlx->win);
-	if (key == 53)
-		exit(0);
+		dst_mlx(mlx);
 	if (key == 69)
 		mlx->scale += 1;
 	if (key == 78)
 		mlx->scale -= 1;
 	if (key == 8)
 		mlx->mode_c += 1;
+	if (key == 18 || key == 19)
+		extra_key(key, mlx);
 	mlx_clear_window(mlx->mlx, mlx->win);
 	draw_map(mlx);
 	return (0);
@@ -121,5 +121,6 @@ int				main(int ac, char **av)
 	draw_map(mlx);
 	mlx_key_hook(mlx->win, deal_key, (void *)mlx);
 	mlx_loop(mlx->mlx);
+	free(mlx);
 	return (0);
 }

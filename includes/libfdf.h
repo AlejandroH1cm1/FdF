@@ -6,7 +6,7 @@
 /*   By: aherrera <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/02 21:41:50 by aherrera          #+#    #+#             */
-/*   Updated: 2018/05/05 21:03:18 by aherrera         ###   ########.fr       */
+/*   Updated: 2018/05/07 20:08:41 by aherrera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@
 
 typedef struct		s_coor
 {
-	float			matrix[4];
+	float			*matrix;
+	int				h;
 	int				color;
 	struct s_coor	*next;
 }					t_coor;
@@ -34,6 +35,7 @@ typedef struct		s_mlx
 	int				w;
 	int				mode;
 	int				mode_c;
+	float			theta;
 	struct s_coor	*map;
 }					t_mlx;
 
@@ -41,9 +43,11 @@ t_mlx				*create_mlx(t_coor *map);
 t_coor				*get_map(char *file, int *w);
 void				add_coor(t_coor **map, float *matrix, int color);
 void				dst_map(t_coor **map);
+void				dst_mlx(t_mlx *mlx);
+void				extra_key(int key, t_mlx *mlx);
 int					get_w(char *map);
 int					get_h(char *map);
-int					get_c(char *line);
+int					get_c(int color);
 void				draw_map(t_mlx *mlx);
 float				**rot_mx_x(double theta);
 float				**rot_mx_y(double theta);

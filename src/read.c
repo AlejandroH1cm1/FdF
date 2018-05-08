@@ -6,11 +6,20 @@
 /*   By: aherrera <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/02 21:38:24 by aherrera          #+#    #+#             */
-/*   Updated: 2018/05/05 19:04:54 by aherrera         ###   ########.fr       */
+/*   Updated: 2018/05/07 19:33:19 by aherrera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libfdf.h"
+
+static void		destroy(char **words)
+{
+	while (*words)
+	{
+		free(*words);
+		words++;
+	}
+}
 
 static t_coor	*map_to_coors(char *map, int w, float *co)
 {
@@ -21,10 +30,11 @@ static t_coor	*map_to_coors(char *map, int w, float *co)
 	words = ft_strsplit(map, ' ');
 	i = 0;
 	coors = NULL;
-	while (words[i + 1])
+	ft_putnbr(w);
+	while (words[i])
 	{
 		co[2] = (float)ft_atoi(words[i]);
-		co[3] = get_c(words[i]);
+		co[3] = get_c((int)co[2]);
 		add_coor(&coors, co, co[3]);
 		co[0]++;
 		if (co[0] == w)
@@ -34,6 +44,9 @@ static t_coor	*map_to_coors(char *map, int w, float *co)
 		}
 		i++;
 	}
+	printf("[%d]", w);
+	destroy(words);
+	free(words);
 	return (coors);
 }
 
@@ -91,5 +104,7 @@ t_coor			*get_map(char *file, int *w)
 	m[3] = 0xFFFFFF;
 	*w = get_w(map);
 	coors = map_to_coors(map, *w, m);
+	free(m);
+	free(map);
 	return (coors);
 }
