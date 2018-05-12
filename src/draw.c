@@ -6,7 +6,7 @@
 /*   By: aherrera <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/02 21:38:42 by aherrera          #+#    #+#             */
-/*   Updated: 2018/05/07 19:58:24 by aherrera         ###   ########.fr       */
+/*   Updated: 2018/05/11 18:04:56 by aherrera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,18 @@ static void		draw_inst(t_mlx *mlx)
 static void		draw_line(t_mlx *mlx, t_coor *c1, t_coor *c2)
 {
 	float	*x;
+	int		dis;
 
 	if (!c1 || !c2)
 		return ;
+	dis = d(mlx, c1, c2);
 	x = (float *)malloc(6 * sizeof(float));
 	x[0] = round(c1->matrix[0] * mlx->scale + 200);
 	x[1] = round(c1->matrix[1] * mlx->scale + 200);
-	x[2] = (round(c2->matrix[0] * mlx->scale + 200) - x[0]) / d(mlx, c1, c2);
-	x[3] = (round(c2->matrix[1] * mlx->scale + 200) - x[1]) / d(mlx, c1, c2);
+	x[2] = (round(c2->matrix[0] * mlx->scale + 200) - x[0]) / dis;
+	x[3] = (round(c2->matrix[1] * mlx->scale + 200) - x[1]) / dis;
 	x[4] = c1->h - c1->h * (mlx->mode_c % 2);
-	x[5] = (c2->h - x[4]) / (d(mlx, c1, c2));
+	x[5] = (c2->h - x[4]) / dis;
 	while (round(x[0]) != round(c2->matrix[0] * mlx->scale + 200)
 	|| round(x[1]) != round(c2->matrix[1] * mlx->scale + 200))
 	{
